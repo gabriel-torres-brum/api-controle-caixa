@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('caixas', function (Blueprint $table) {
+        Schema::create('transacoes', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('user_id')->constrained('users');
-            $table->string('valor_abertura');
-            $table->dateTime('data_hora_fechamento')->nullable();
-            $table->string('valor_fechamento')->nullable();
+            $table->foreignUuid('caixa_id')->constrained('caixas');
+            $table->foreignUuid('status_id')->constrained('transacoes_status');
+            $table->string('valor_total');
+            $table->enum('tipo', ['entrada', 'saida']);
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('caixas');
+        Schema::dropIfExists('transacoes');
     }
 };

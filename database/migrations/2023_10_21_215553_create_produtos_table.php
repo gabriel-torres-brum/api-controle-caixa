@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('descricao')->nullable();
             $table->string('valor_unidade');
             $table->string('porcentagem_lucro_unidade');
-            $table->foreignId('tipo_estoque_id')->constrained('tipos_estoques');
+            $table->foreignUuid('tipo_estoque_id')->constrained('tipos_estoques');
             $table->string('quantidade_estoque');
             $table->string('url_foto')->nullable();
             $table->timestamps();

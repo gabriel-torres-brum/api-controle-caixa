@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('status', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::create('produto_transacao', function (Blueprint $table) {
+            $table->foreignUuid('transacao_id')->constrained('transacoes');
+            $table->foreignUuid('produto_id')->constrained('produtos');
+            $table->string('quantidade');
         });
     }
 
@@ -22,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('status');
+        Schema::dropIfExists('produto_transacao');
     }
 };

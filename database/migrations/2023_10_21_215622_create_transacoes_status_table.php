@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transacoes', function (Blueprint $table) {
+        Schema::create('transacoes_status', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('user_id')->constrained('users');
-            $table->foreignUuid('caixa_id')->constrained('caixas');
-            $table->string('valor_total');
-            $table->enum('tipo', ['entrada', 'saida']);
+            $table->string('nome')->unique();
+            $table->string('label')->unique();
+            $table->string('descricao');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transacoes');
+        Schema::dropIfExists('transacoes_status');
     }
 };
