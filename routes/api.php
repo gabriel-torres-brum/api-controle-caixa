@@ -2,6 +2,7 @@
 
 use App\Actions\Caixa\AbrirCaixa;
 use App\Actions\Caixa\FecharCaixa;
+use App\Actions\Transacao\AdicionarProdutoTransacao;
 use App\Actions\Transacao\ListarTransacoesCaixa;
 use App\Actions\Transacao\RegistrarTransacao;
 use Illuminate\Support\Facades\Route;
@@ -15,4 +16,8 @@ Route::prefix('v1')->group(function () {
     Route::patch('caixas/{caixa}/fechar', FecharCaixa::class);
     Route::post('caixas/{caixa}/transacoes', RegistrarTransacao::class);
     Route::get('caixas/{caixa}/transacoes', ListarTransacoesCaixa::class);
+
+    Route::post('transacoes/{transacao}/produtos/{produto}', AdicionarProdutoTransacao::class);
+
+    // TODO: Criar endpoint para listar produtos
 });
