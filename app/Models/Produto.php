@@ -9,4 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 class Produto extends Model
 {
     use HasFactory, HasUuids;
+
+    protected $table = 'produtos';
+    protected $guarded = [];
+
+    public function transacoes()
+    {
+        return $this->belongsToMany(Transacao::class);
+    }
 }

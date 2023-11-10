@@ -9,4 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 class TipoEstoque extends Model
 {
     use HasFactory, HasUuids;
+
+    protected $table = 'tipos_estoques';
+    protected $guarded = [];
+
+    public function produtos()
+    {
+        return $this->hasMany(Produto::class);
+    }
 }
