@@ -1,9 +1,12 @@
 <?php
 
+use App\Actions\Caixa\AbrirCaixa;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn () => ['Projeto' => config('app.name'), 'Versão' => config('app.version')]);
 
-Route::group(['prefix' => 'v1'], function () {
+Route::prefix('v1')->group(function () {
     Route::get('/', fn () => ['Projeto' => config('app.name'), 'Versão' => '1.0.0']);
+
+    Route::post('caixas/abrir', AbrirCaixa::class);
 });
