@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('caixas', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->constrained('users');
-            $table->string('valor_abertura');
-            $table->dateTime('data_hora_fechamento')->nullable();
             $table->string('valor_fechamento')->nullable();
+            $table->dateTime('data_hora_fechamento')->nullable();
             $table->timestamps();
         });
     }

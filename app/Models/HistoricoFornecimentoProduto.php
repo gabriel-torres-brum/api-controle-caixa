@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TipoEstoque extends Model
+class HistoricoFornecimentoProduto extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $table = 'tipos_estoques';
+    protected $table = 'historicos_fornecimentos_produtos';
     protected $guarded = [];
 
-    public function produtos()
+    public function produto()
     {
         return $this->hasMany(Produto::class);
     }

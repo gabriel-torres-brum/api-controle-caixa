@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transacoes_status', function (Blueprint $table) {
+        Schema::create('movimentacoes', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('nome')->unique();
-            $table->string('label')->unique();
-            $table->string('descricao');
+            $table->foreignUuid('caixa_id')->constrained('caixas');
+            $table->string('valor');
+            $table->enum('tipo', ['entrada', 'saida']);
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transacoes_status');
+        Schema::dropIfExists('movimentacoes');
     }
 };

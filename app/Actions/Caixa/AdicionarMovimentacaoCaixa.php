@@ -1,18 +1,17 @@
 <?php
 
-namespace App\Actions\Transacao;
+namespace App\Actions\Caixa;
 
 use App\Exceptions\Caixa\CaixaFechadoHttpException;
 use App\Models\Caixa;
 use App\Models\Transacao;
-use App\Models\TransacoesStatus;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Lorisleiva\Actions\ActionRequest;
 use Lorisleiva\Actions\Concerns\AsAction;
 
-class RegistrarTransacao
+class AdicionarMovimentacaoCaixa
 {
     use AsAction;
 
@@ -21,7 +20,6 @@ class RegistrarTransacao
         return Transacao::query()
             ->create([
                 'caixa_id' => $caixaId,
-                'status_id' => TransacoesStatus::byNome(TransacoesStatus::NO_CARRINHO)->id,
                 'tipo' => $tipo,
                 'valor_total' => 0
             ])

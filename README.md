@@ -1,1 +1,3 @@
 ## API Controle de caixa
+
+## PROJETO PARADO INDEFINIDAMENTE

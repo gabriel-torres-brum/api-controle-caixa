@@ -2,10 +2,10 @@
 
 namespace App\Actions\Caixa;
 
-use App\Exceptions\Caixa\CaixaAnteriorAindaEstaAbertoHttpException;
+use App\Exceptions\CaixaAnteriorAindaEstaAbertoException;
 use App\Models\Caixa;
 use App\Models\User;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use Lorisleiva\Actions\ActionRequest;
 use Lorisleiva\Actions\Concerns\AsAction;
 
@@ -17,14 +17,13 @@ class AbrirCaixa
     {
         return Caixa::query()
             ->create([
-                'user_id' => $userId,
-                'valor_abertura' => 0
+                'user_id' => $userId
             ])
             ->refresh()
             ->toArray();
     }
 
-    public function asController(ActionRequest $request): JsonResponse
+    public function asController(ActionRequest $request): Response
     {
         // TODO: Trocar essa linha para buscar o id do usuário autenticado
         $userId = User::first()->id;
@@ -32,7 +31,7 @@ class AbrirCaixa
         $this->verificaPermissaoUsuario($userId);
         $this->verificaJaExisteUmCaixaAbertoParaOUsuario($userId);
 
-        return response()->json($this->handle($userId));
+        return response($this->handle($userId));
     }
 
     /** Métodos auxiliares */
@@ -50,7 +49,7 @@ class AbrirCaixa
             ->first();
 
         if ($caixaAnteriorDoUsuario && !$caixaAnteriorDoUsuario->data_hora_fechamento) {
-            throw new CaixaAnteriorAindaEstaAbertoHttpException;
+            throw new CaixaAnteriorAindaEstaAbertoException;
         }
     }
 }

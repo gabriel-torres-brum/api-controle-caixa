@@ -5,8 +5,8 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Produto;
-use App\Models\TipoEstoque;
 use App\Models\User;
+use App\Models\UnidadeMedida;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -24,60 +24,55 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        // Criando tipos de estoque
-        $unidade = TipoEstoque::create([
-            'nome' => 'Unidade',
-            'descricao' => 'Unidade',
-            'quantidade_decimal_unidade' => 1,
+        $kilos = UnidadeMedida::create([
+            'nome' => 'kilos',
+            'label' => 'KG',
+            'decimais' => 3,
         ]);
 
-        $litros = TipoEstoque::create([
-            'nome' => 'Litros',
-            'descricao' => 'Litros',
-            'quantidade_decimal_unidade' => 1,
+        $unidades = UnidadeMedida::create([
+            'nome' => 'unidades',
+            'label' => 'Unidades',
+            'decimais' => 0,
         ]);
 
-        $kilos = TipoEstoque::create([
-            'nome' => 'Kilos',
-            'descricao' => 'Kilos',
-            'quantidade_decimal_unidade' => 1,
+        $litros = UnidadeMedida::create([
+            'nome' => 'litros',
+            'label' => 'Litros',
+            'decimais' => 2,
         ]);
 
         // Criando produtos
         $tenisNike = Produto::create([
             'codigo' => 'TN001',
             'nome' => 'Tênis Nike',
+            'unidade_medida_id' => $unidades->id,
             'valor_unidade' => 200,
-            'porcentagem_lucro_unidade' => 20,
-            'tipo_estoque_id' => $unidade->id,
-            'quantidade_estoque' => 100,
+            'qtd_estoque' => 100,
         ]);
 
         $paoFrances = Produto::create([
             'codigo' => 'PF001',
             'nome' => 'Pão francês',
+            'unidade_medida_id' => $kilos->id,
             'valor_unidade' => 0.5,
-            'porcentagem_lucro_unidade' => 10,
-            'tipo_estoque_id' => $kilos->id,
-            'quantidade_estoque' => 200,
+            'qtd_estoque' => 200,
         ]);
 
         $acai = Produto::create([
             'codigo' => 'AC001',
             'nome' => 'Açaí',
             'valor_unidade' => 10,
-            'porcentagem_lucro_unidade' => 15,
-            'tipo_estoque_id' => $litros->id,
-            'quantidade_estoque' => 50,
+            'unidade_medida_id' => $litros->id,
+            'qtd_estoque' => 50,
         ]);
 
         $cacauEmPo = Produto::create([
             'codigo' => 'CP001',
             'nome' => 'Cacau em pó',
-            'valor_unidade' => 15,
-            'porcentagem_lucro_unidade' => 20,
-            'tipo_estoque_id' => $kilos->id,
-            'quantidade_estoque' => 75,
+            'valor_unidade' => 154.98,
+            'unidade_medida_id' => $kilos->id,
+            'qtd_estoque' => 752,
         ]);
 
         // Criando usuários

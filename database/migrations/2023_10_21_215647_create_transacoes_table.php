@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tipos_estoques', function (Blueprint $table) {
+        Schema::create('transacoes', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('nome')->unique();
-            $table->string('descricao')->nullable();
-            $table->string('quantidade_decimal_unidade');
+            $table->foreignUuid('caixa_id')->constrained('caixas');
+            $table->string('valor_total_final')->nullable();
+            $table->string('status');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tipos_estoques');
+        Schema::dropIfExists('transacoes');
     }
 };

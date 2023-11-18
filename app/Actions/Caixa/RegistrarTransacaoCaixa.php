@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Actions\Transacao;
+namespace App\Actions\Caixa;
 
+use App\Enums\StatusTransacoes;
+use App\Exceptions\CaixaFechadoException;
 use App\Models\Caixa;
 use App\Models\Transacao;
 use App\Models\User;
@@ -10,27 +12,31 @@ use Illuminate\Http\JsonResponse;
 use Lorisleiva\Actions\ActionRequest;
 use Lorisleiva\Actions\Concerns\AsAction;
 
-class ListarTransacoesCaixa
+class RegistrarTransacaoCaixa
 {
     use AsAction;
 
     public function handle(string $caixaId): array
     {
         return Transacao::query()
-            ->where('caixa_id', $caixaId)
-            ->latest()
-            ->get()
+            ->create(['caixa_id' => $caixaId])
+            ->refresh()
             ->toArray();
     }
 
-    public function asController(Caixa $caixa, ActionRequest $request): JsonResponse
+    public function asController(string $caixaId, ActionRequest $request): JsonResponse
     {
         // TODO: Trocar essa linha para buscar o id do usuário autenticado
         $userId = User::first()->id;
 
-        $this->verificaPermissaoUsuario($userId, $caixa);
+        $caixa = Caixa::query()->findOrFail($caixaId);
 
-        return response()->json($this->handle($caixa->id));
+        $this->verificaPermissaoUsuario($userId, $caixa);
+        $this->verificaSeOCaixaEstaAberto($caixa);
+
+        return response()->json(
+            $this->handle($caixa->id)
+        );
     }
 
     /** Métodos auxiliares */
@@ -39,6 +45,13 @@ class ListarTransacoesCaixa
     {
         if ($userId !== $caixa->user_id) {
             throw new ModelNotFoundException;
+        }
+    }
+
+    protected function verificaSeOCaixaEstaAberto(Caixa $caixa)
+    {
+        if ($caixa->data_hora_fechamento) {
+            throw new CaixaFechadoException;
         }
     }
 }

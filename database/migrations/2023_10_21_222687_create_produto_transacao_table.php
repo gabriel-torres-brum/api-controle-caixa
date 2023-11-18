@@ -15,6 +15,8 @@ return new class extends Migration
             $table->foreignUuid('transacao_id')->constrained('transacoes');
             $table->foreignUuid('produto_id')->constrained('produtos');
             $table->string('quantidade');
+            $table->string('valor_unidade_final')->nullable();
+            $table->timestamp('created_at')->nullable();
         });
     }
 
